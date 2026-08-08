@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3M7KLF0HG"></script>
+<!-- Google Analytics + Consent Mode -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
+  const savedConsent = localStorage.getItem('cookieConsent');
+
+  gtag('consent', 'default', {
+    'analytics_storage': savedConsent === 'accepted' ? 'granted' : 'denied',
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied'
+  });
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3M7KLF0HG"></script>
+
+<script>
+  gtag('js', new Date());
   gtag('config', 'G-Y3M7KLF0HG');
 </script>
   :root{
