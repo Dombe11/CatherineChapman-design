@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<!-- Google Analytics + Consent Mode -->
+<!-- Google Analytics — only loads after cookie consent -->
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  const GA_MEASUREMENT_ID = 'G-Y3M7KLF0HG';
 
-  const savedConsent = localStorage.getItem('cookieConsent');
+  function loadGoogleAnalytics() {
+    if (window.googleAnalyticsLoaded) return;
+    window.googleAnalyticsLoaded = true;
 
-  gtag('consent', 'default', {
-    'analytics_storage': savedConsent === 'accepted' ? 'granted' : 'denied',
-    'ad_storage': 'denied',
-    'ad_user_data': 'denied',
-    'ad_personalization': 'denied'
-  });
-</script>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ dataLayer.push(arguments); };
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y3M7KLF0HG"></script>
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
+    document.head.appendChild(script);
 
-<script>
-  gtag('js', new Date());
-  gtag('config', 'G-Y3M7KLF0HG');
+    gtag('js', new Date());
+    gtag('config', GA_MEASUREMENT_ID);
+  }
+
+  if (localStorage.getItem('cookieConsent') === 'accepted') {
+    loadGoogleAnalytics();
+  }
 </script>
   <style>
   :root{
@@ -643,21 +646,12 @@
 
   cookieAccept.addEventListener('click', function() {
     localStorage.setItem('cookieConsent', 'accepted');
-
-    gtag('consent', 'update', {
-      'analytics_storage': 'granted'
-    });
-
+    loadGoogleAnalytics();
     cookieBanner.style.display = 'none';
   });
 
   cookieReject.addEventListener('click', function() {
     localStorage.setItem('cookieConsent', 'rejected');
-
-    gtag('consent', 'update', {
-      'analytics_storage': 'denied'
-    });
-
     cookieBanner.style.display = 'none';
   });
 </script>
