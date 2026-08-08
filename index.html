@@ -20,6 +20,7 @@
   gtag('js', new Date());
   gtag('config', 'G-Y3M7KLF0HG');
 </script>
+  <style>
   :root{
     --paper:#F8F2E7;
     --paper-soft:#F3E6DE;
@@ -347,12 +348,105 @@
     .arrow{ display:none; }
     nav ul{ display:none; }
   }
+
+  /* ---------- cookie consent ---------- */
+  .cookie-banner{
+    position:fixed;
+    left:20px;
+    right:20px;
+    bottom:20px;
+    max-width:760px;
+    margin:0 auto;
+    background:#fff;
+    color:var(--ink);
+    padding:20px 24px;
+    border-radius:18px;
+    box-shadow:0 12px 40px rgba(46,42,59,0.22);
+    z-index:9999;
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+  }
+
+  .cookie-banner p{
+    margin:0;
+    font-size:.88rem;
+    color:var(--ink-soft);
+  }
+
+  .cookie-banner strong{
+    color:var(--ink);
+  }
+
+  .cookie-actions{
+    display:flex;
+    gap:10px;
+    flex-shrink:0;
+  }
+
+  .cookie-button{
+    border:0;
+    border-radius:999px;
+    padding:10px 18px;
+    font-family:'Quicksand',sans-serif;
+    font-weight:700;
+    font-size:.75rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+
+  .cookie-accept{
+    background:var(--blush);
+    color:#fff;
+  }
+
+  .cookie-reject{
+    background:var(--paper-soft);
+    color:var(--ink);
+  }
+
+  @media(max-width:600px){
+    .cookie-banner{
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .cookie-actions{
+      width:100%;
+    }
+
+    .cookie-button{
+      flex:1;
+    }
+  }
+
   @media (max-width:560px){
     .gallery{ grid-template-columns:1fr; }
   }
 </style>
 </head>
 <body>
+
+
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Cookie consent">
+  <p>
+    <strong>Cookies</strong><br>
+    We use analytics cookies to understand how visitors use this website.
+  </p>
+
+  <div class="cookie-actions">
+    <button class="cookie-button cookie-reject" id="cookieReject" type="button">
+      Reject
+    </button>
+
+    <button class="cookie-button cookie-accept" id="cookieAccept" type="button">
+      Accept
+    </button>
+  </div>
+</div>
+
 
 <header>
   <div class="nav-wrap">
@@ -534,6 +628,39 @@
     </div>
   </div>
 </footer>
+
+
+<script>
+  const cookieBanner = document.getElementById('cookieBanner');
+  const cookieAccept = document.getElementById('cookieAccept');
+  const cookieReject = document.getElementById('cookieReject');
+
+  const cookieConsent = localStorage.getItem('cookieConsent');
+
+  if (!cookieConsent) {
+    cookieBanner.style.display = 'flex';
+  }
+
+  cookieAccept.addEventListener('click', function() {
+    localStorage.setItem('cookieConsent', 'accepted');
+
+    gtag('consent', 'update', {
+      'analytics_storage': 'granted'
+    });
+
+    cookieBanner.style.display = 'none';
+  });
+
+  cookieReject.addEventListener('click', function() {
+    localStorage.setItem('cookieConsent', 'rejected');
+
+    gtag('consent', 'update', {
+      'analytics_storage': 'denied'
+    });
+
+    cookieBanner.style.display = 'none';
+  });
+</script>
 
 </body>
 </html>
