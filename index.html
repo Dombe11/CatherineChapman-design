@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<!-- Google Analytics — only loads after cookie consent -->
+<!-- Google Analytics — loads only after cookie consent -->
 <script>
-  const GA_MEASUREMENT_ID = 'G-Y3M7KLF0HG';
-
   function loadGoogleAnalytics() {
     if (window.googleAnalyticsLoaded) return;
     window.googleAnalyticsLoaded = true;
 
-    window.dataLayer = window.dataLayer || [];
-    window.gtag = function(){ dataLayer.push(arguments); };
+    const googleTag = document.createElement('script');
+    googleTag.async = true;
+    googleTag.src = 'https://www.googletagmanager.com/gtag/js?id=G-Y3M7KLF0HG';
+    document.head.appendChild(googleTag);
 
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_MEASUREMENT_ID;
-    document.head.appendChild(script);
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    window.gtag = gtag;
 
     gtag('js', new Date());
-    gtag('config', GA_MEASUREMENT_ID);
+    gtag('config', 'G-Y3M7KLF0HG');
   }
 
   if (localStorage.getItem('cookieConsent') === 'accepted') {
     loadGoogleAnalytics();
   }
 </script>
-  <style>
+<style>
   :root{
     --paper:#F8F2E7;
     --paper-soft:#F3E6DE;
